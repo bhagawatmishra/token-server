@@ -104,6 +104,9 @@ app.post('/unblock', (req, res) => {
             console.error(err);
             return res.status(404).json({ message: 'Token not found' });
         }
+        if (tokenDataJson === null) {
+            return res.status(404).json({ message: 'Token not found' });
+        }
         const tokenData = JSON.parse(tokenDataJson);
         if (tokenData.status === 'blocked') {
             tokenData.status = 'free';
@@ -127,6 +130,9 @@ app.delete('/delete', (req, res) => {
         }
         if (count === 1) {
             return res.json({ message: 'Token deleted' });
+        }
+        else {
+            return res.status(404).json({ message: 'Token not found' });
         }
     });
 });
