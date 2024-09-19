@@ -3,10 +3,27 @@ A server that can generate and assign random tokens within a pool and release th
 
 ## Table of Contents
 
+- [API Details](#api-details)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
-- [API Details](#api-details)
+
+
+## API Details
+
+For details on the API endpoints, you can import the provided Postman collection into Postman. Follow these steps:
+
+1. **Open Postman.**
+2. **Import the Collection:**
+   - Click on the "Import" button in the top-left corner of the Postman app.
+   - Choose "File" and select the downloaded Postman collection file (e.g., `Token Server.postman_collection.json`).
+   - Click "Import" to add the collection to your workspace.
+
+3. **Explore the Endpoints:**
+   - After importing, you will see the collection listed in your Postman workspace. 
+   - Click on the collection to explore the available API endpoints and make requests.
+
+This collection will allow you to easily interact with the various functionalities of the token server.
 
 ## Prerequisites
 
