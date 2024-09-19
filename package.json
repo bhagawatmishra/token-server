@@ -1,0 +1,23 @@
+{
+  "name": "token-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": {
+    "name": "Bhagawat Mishra",
+    "email": "bhagawatmishra111@gmail.com",
+    "url": "https://www.linkedin.com/in/bhagawatmishra/"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.0",
+    "ioredis": "^5.4.1",
+    "redis": "^4.7.0",
+    "uuid": "^10.0.0"
+  }
+}
