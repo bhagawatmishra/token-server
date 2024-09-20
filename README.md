@@ -48,6 +48,12 @@ This collection will allow you to easily interact with the various functionaliti
    Ensure that you have Redis installed and running. You can start the Redis server with:
    ```bash
    redis-server
+## Docker Usage
+1. **Build and Run Docker Containers:**
+   ```bash
+   docker-compose up -d
+2. **Access the Application:**
+   The application will be available on the ports specified in the .env file.
 ## Usage
 To start the application, run:
 ```bash
