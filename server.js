@@ -5,10 +5,10 @@ const Redis = require("ioredis");
 const app = express();
 app.use(express.json());
 
-// Create a Redis client
+// Create a Redis client using environment variables for host and port
 const redisClient = new Redis({
-  host: "localhost",
-  port: 6379,
+  host: process.env.REDIS_HOST || "localhost",
+  port: process.env.REDIS_PORT || 6379,
 });
 
 // Initialize the token pool in Redis
