@@ -7,8 +7,8 @@ app.use(express.json());
 
 // Create a Redis client
 const redisClient = new Redis({
-  host: "localhost",
-  port: 6379,
+  host: process.env.REDIS_HOST || "localhost",
+  port: process.env.REDIS_PORT || 6379,
 });
 
 // Initialize keys for Redis data structures
@@ -17,8 +17,8 @@ const freeTokensSet = "freeTokensSet"; // Redis set to track free tokens
 const expiredTokensZSet = "expiredTokensZSet"; // Redis sorted set to track token expirations
 redisClient.del(tokenPoolKey, freeTokensSet, expiredTokensZSet);
 
-const TOKEN_LIFETIME = 60000; // 60 seconds
-const KEEP_ALIVE_THRESHOLD = 300000; // 5 minutes
+const TOKEN_LIFETIME = process.env.TOKEN_LIFETIME || 60000; // 60 seconds
+const KEEP_ALIVE_THRESHOLD = process.env.KEEP_ALIVE_THRESHOLD || 300000; // 5 minutes
 
 // Middleware to clean up expired tokens
 setInterval(() => {

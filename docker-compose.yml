@@ -13,6 +13,8 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
       - PORT=${PORT}
+      - TOKEN_LIFETIME=${TOKEN_LIFETIME}
+      - KEEP_ALIVE_THRESHOLD=${KEEP_ALIVE_THRESHOLD}
     depends_on:
       - redis
     restart: unless-stopped
