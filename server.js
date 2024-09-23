@@ -20,26 +20,57 @@ redisClient.del(tokenPoolKey, freeTokensSet, expiredTokensZSet);
 const TOKEN_LIFETIME = 60000; // 60 seconds
 const KEEP_ALIVE_THRESHOLD = 300000; // 5 minutes
 
-// Middleware to clean up expired tokens using ZSET
+// Middleware to clean up expired tokens
 setInterval(() => {
   const now = Date.now();
-  redisClient.zrangebyscore(expiredTokensZSet, 0, now, (err, expiredTokens) => {
+  console.log("Checking for expired tokens...");
+
+  // Check for expired tokens based on their status
+  redisClient.hkeys(tokenPoolKey, (err, tokens) => {
     if (err) {
-      console.error(err);
+      console.error("Error fetching token keys:", err);
       return;
     }
 
-    // Remove expired tokens from the token pool and the free tokens set
-    expiredTokens.forEach((token) => {
-      redisClient.multi()
-        .hdel(tokenPoolKey, token)
-        .srem(freeTokensSet, token)
-        .zrem(expiredTokensZSet, token)
-        .exec((err) => {
-          if (err) {
-            console.error("Error removing expired token:", token, err);
+    tokens.forEach((token) => {
+      redisClient.hget(tokenPoolKey, token, (err, tokenDataJson) => {
+        if (err) {
+          console.error("Error fetching token data:", err);
+          return;
+        }
+
+        if (!tokenDataJson) {
+          console.log(`Token not found in pool: ${token}`);
+          return;
+        }
+
+        const tokenData = JSON.parse(tokenDataJson);
+
+        // Check for tokens that have been blocked and not kept alive
+        if (tokenData.status === "blocked") {
+          if (now - tokenData.lastAlive > TOKEN_LIFETIME) {
+            console.log(`Releasing expired token: ${token}`); // Log the token being released
+            tokenData.status = "free";
+            redisClient.hset(tokenPoolKey, token, JSON.stringify(tokenData)); // Update status to free
           }
-        });
+        }
+
+        // Check for free tokens that should be deleted after 5 minutes
+        if (tokenData.status === "free") {
+          if (now - tokenData.lastAlive > KEEP_ALIVE_THRESHOLD) {
+            console.log(`Deleting expired free token: ${token}`); // Log the token being deleted
+
+            redisClient.multi()
+              .hdel(tokenPoolKey, token)  // Remove from the token pool
+              .srem(freeTokensSet, token) // Remove from the free tokens set
+              .exec((err) => {
+                if (err) {
+                  console.error("Error deleting token:", token, err);
+                }
+              });
+          }
+        }
+      });
     });
   });
 }, 60000); // Run every minute
