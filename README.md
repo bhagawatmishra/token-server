@@ -3,11 +3,16 @@ A server that can generate and assign random tokens within a pool and release th
 
 ## Table of Contents
 
+- [HLD Diagram](#hld-diagram)
 - [API Details](#api-details)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
 
+## HLD Diagram
+<p align="center">
+    <img src="TokenServer.drawio.png" alt="HLD Diagram" />
+</p>
 
 ## API Details
 
@@ -56,5 +61,5 @@ This collection will allow you to easily interact with the various functionaliti
    The application will be available on the ports specified in the .env file.
 ## Usage
 To start the application, run:
-```bash
-npm start
+   ```bash
+   npm start
